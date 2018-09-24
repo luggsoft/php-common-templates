@@ -29,7 +29,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
     final public function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null)
     {
         if ($templateContext === null) {
-            $templateContext = new TemplateContext();
+            $templateContext = new DefaultTemplateContext();
         }
         $templateContext->addTemplate($template);
         return $this->render($templateContext);
