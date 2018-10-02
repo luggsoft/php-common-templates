@@ -14,9 +14,9 @@ interface TemplateContextInterface
     /**
      * 
      * @param string $rendered
-     * @return void
+     * @return TemplateContextInterface
      */
-    function setRendered($rendered);
+    function withRendered($rendered);
 
     /**
      * 
@@ -36,5 +36,27 @@ interface TemplateContextInterface
      * @return TemplateInterface
      */
     function popTemplate();
+
+    /**
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    function getValue($name);
+
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
+     * @return TemplateContextInterface
+     */
+    function withValue($name, $value);
+
+    /**
+     * 
+     * @param mixed $values
+     * @return TemplateContextInterface
+     */
+    function withValues($values);
 
 }

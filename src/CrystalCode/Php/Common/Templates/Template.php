@@ -9,15 +9,15 @@ final class Template extends TemplateBase
      *
      * @var callable
      */
-    private $executeCallable;
+    private $callable;
 
     /**
      * 
-     * @param callable $executeCallable
+     * @param callable $callable
      */
-    public function __construct(callable $executeCallable)
+    public function __construct(callable $callable)
     {
-        $this->executeCallable = $executeCallable;
+        $this->callable = $callable;
     }
 
     /**
@@ -27,7 +27,7 @@ final class Template extends TemplateBase
      */
     protected function execute(TemplateContextInterface $templateContext)
     {
-        call_user_func($this->executeCallable, $templateContext);
+        call_user_func($this->callable, $templateContext);
     }
 
 }

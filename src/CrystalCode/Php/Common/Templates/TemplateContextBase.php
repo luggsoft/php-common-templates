@@ -2,8 +2,16 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
+use CrystalCode\Php\Common\Collections\Collection;
+
 abstract class TemplateContextBase implements TemplateContextInterface
 {
+
+    /**
+     *
+     * @var array
+     */
+    private $values = [];
 
     /**
      *
@@ -22,10 +30,70 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param string $rendered
      * @param array|TemplateInterface[] $templates
      */
-    public function __construct($rendered = null, array $templates = [])
+    public function __construct($values = [], $rendered = null, array $templates = [])
     {
+        $this->setValues($values);
         $this->setRendered($rendered);
         $this->addTemplates($templates);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    final public function __get($name)
+    {
+        return $this->getValue($name);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    final public function __set($name, $value)
+    {
+        $this->setValue($name, $value);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    final public function getValue($name)
+    {
+        if (isset($this->values[$name])) {
+            return $this->values[$name];
+        }
+        return null;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
+     * @return TemplateContextInterface
+     */
+    final public function withValue($name, $value)
+    {
+        $clone = clone $this;
+        $clone->setValue($name, $value);
+        return $clone;
+    }
+
+    /**
+     * 
+     * @param mixed $values
+     * @return TemplateContextInterface
+     */
+    final public function withValues($values)
+    {
+        $clone = clone $this;
+        $clone->setValues($values);
+        return $clone;
     }
 
     /**
@@ -40,11 +108,13 @@ abstract class TemplateContextBase implements TemplateContextInterface
     /**
      * 
      * @param string $rendered
-     * @return void
+     * @return TemplateContextInterface
      */
-    final public function setRendered($rendered)
+    final public function withRendered($rendered)
     {
-        $this->rendered = (string) $rendered;
+        $clone = clone $this;
+        $clone->setRendered($rendered);
+        return $clone;
     }
 
     /**
@@ -85,6 +155,39 @@ abstract class TemplateContextBase implements TemplateContextInterface
     final public function popTemplate()
     {
         return array_pop($this->templates);
+    }
+
+    /**
+     * 
+     * @param string $rendered
+     * @return void
+     */
+    final protected function setRendered($rendered)
+    {
+        $this->rendered = (string) $rendered;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    final protected function setValue($name, $value)
+    {
+        $this->values[(string) $name] = $value;
+    }
+
+    /**
+     * 
+     * @param mixed[] $values
+     * @return void
+     */
+    final protected function setValues($values)
+    {
+        foreach (Collection::create($values) as $name => $value) {
+            $this->setValue($name, $value);
+        }
     }
 
 }
