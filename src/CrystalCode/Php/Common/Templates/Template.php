@@ -22,8 +22,7 @@ final class Template extends TemplateBase
 
     /**
      * 
-     * @param TemplateContextInterface $templateContext
-     * @return void
+     * {@inheritdoc}
      */
     protected function execute(TemplateContextInterface $templateContext)
     {

@@ -16,8 +16,7 @@ final class RequireFileTemplate extends FileTemplateBase
 
     /**
      * 
-     * @param TemplateContextInterface $templateContext
-     * @return void
+     * {@inheritdoc}
      */
     protected function execute(TemplateContextInterface $templateContext)
     {
