@@ -10,6 +10,5 @@ interface TemplateInterface
      * @param TemplateContextInterface $templateContext
      * @return string
      */
-    function render(TemplateContextInterface $templateContext);
-
+    function render(TemplateContextInterface $templateContext): string;
 }

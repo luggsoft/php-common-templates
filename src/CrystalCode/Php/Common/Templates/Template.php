@@ -24,7 +24,7 @@ final class Template extends TemplateBase
      * 
      * {@inheritdoc}
      */
-    protected function execute(TemplateContextInterface $templateContext)
+    protected function execute(TemplateContextInterface $templateContext): void
     {
         call_user_func($this->callable, $templateContext);
     }

@@ -9,40 +9,40 @@ interface TemplateContextInterface
      * 
      * @return string
      */
-    function getRendered();
+    function getRendered(): string;
 
     /**
      * 
      * @param string $rendered
      * @return TemplateContextInterface
      */
-    function withRendered($rendered);
+    function withRendered(string $rendered = null): TemplateContextInterface;
 
     /**
      * 
      * @return bool
      */
-    function hasTemplate();
+    function hasTemplate(): bool;
 
     /**
      * 
      * @param TemplateInterface $template
      * @return void
      */
-    function addTemplate(TemplateInterface $template);
+    function addTemplate(TemplateInterface $template): void;
 
     /**
      * 
      * @return TemplateInterface
      */
-    function popTemplate();
+    function popTemplate(): TemplateInterface;
 
     /**
      * 
      * @param string $name
      * @return mixed
      */
-    function getValue($name);
+    function getValue(string $name);
 
     /**
      * 
@@ -50,13 +50,12 @@ interface TemplateContextInterface
      * @param mixed $value
      * @return TemplateContextInterface
      */
-    function withValue($name, $value);
+    function withValue(string $name, $value): TemplateContextInterface;
 
     /**
      * 
-     * @param mixed $values
+     * @param iterable $values
      * @return TemplateContextInterface
      */
-    function withValues($values);
-
+    function withValues(iterable $values): TemplateContextInterface;
 }

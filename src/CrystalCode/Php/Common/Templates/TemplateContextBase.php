@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-use CrystalCode\Php\Common\Collections\Collection;
+use \CrystalCode\Php\Common\Collections\Collection;
 
 abstract class TemplateContextBase implements TemplateContextInterface
 {
@@ -27,10 +27,11 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
+     * @param iterable $values
      * @param string $rendered
-     * @param array|TemplateInterface[] $templates
+     * @param iterable|TemplateInterface[] $templates
      */
-    public function __construct($values = [], $rendered = null, array $templates = [])
+    public function __construct(iterable $values = [], string $rendered = null, iterable $templates = [])
     {
         $this->setValues($values);
         $this->setRendered($rendered);
@@ -42,7 +43,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param string $name
      * @return mixed
      */
-    final public function __get($name)
+    final public function __get(string $name)
     {
         return $this->getValue($name);
     }
@@ -53,7 +54,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param mixed $value
      * @return void
      */
-    final public function __set($name, $value)
+    final public function __set(string $name, $value)
     {
         $this->setValue($name, $value);
     }
@@ -62,7 +63,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function getValue($name)
+    final public function getValue(string $name)
     {
         if (isset($this->values[$name])) {
             return $this->values[$name];
@@ -74,7 +75,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function withValue($name, $value)
+    final public function withValue(string $name, $value): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setValue($name, $value);
@@ -85,7 +86,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function withValues($values)
+    final public function withValues(iterable $values): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setValues($values);
@@ -96,7 +97,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function getRendered()
+    final public function getRendered(): string
     {
         return $this->rendered;
     }
@@ -105,7 +106,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function withRendered($rendered)
+    final public function withRendered(string $rendered = null): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setRendered($rendered);
@@ -116,19 +117,19 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function hasTemplate()
+    final public function hasTemplate(): bool
     {
         return count($this->templates) > 0;
     }
 
     /**
      * 
-     * @param array|TemplateInterface[] $templates
+     * @param iterable|TemplateInterface[] $templates
      * @return void
      */
-    final public function addTemplates(array $templates)
+    final public function addTemplates(iterable $templates): void
     {
-        foreach ($templates as $template) {
+        foreach (Collection::create($templates) as $template) {
             $this->addTemplate($template);
         }
     }
@@ -137,7 +138,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function addTemplate(TemplateInterface $template)
+    final public function addTemplate(TemplateInterface $template): void
     {
         array_push($this->templates, $template);
     }
@@ -146,7 +147,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
-    final public function popTemplate()
+    final public function popTemplate(): TemplateInterface
     {
         return array_pop($this->templates);
     }
@@ -156,7 +157,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param string $rendered
      * @return void
      */
-    final protected function setRendered($rendered)
+    final protected function setRendered(string $rendered = null): void
     {
         $this->rendered = (string) $rendered;
     }
@@ -167,17 +168,17 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param mixed $value
      * @return void
      */
-    final protected function setValue($name, $value)
+    final protected function setValue(string $name, $value): void
     {
-        $this->values[(string) $name] = $value;
+        $this->values[$name] = $value;
     }
 
     /**
      * 
-     * @param mixed[] $values
+     * @param iterable $values
      * @return void
      */
-    final protected function setValues($values)
+    final protected function setValues(iterable $values): void
     {
         foreach (Collection::create($values) as $name => $value) {
             $this->setValue($name, $value);

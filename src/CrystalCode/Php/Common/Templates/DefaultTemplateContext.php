@@ -7,11 +7,11 @@ final class DefaultTemplateContext extends TemplateContextBase
 
     /**
      * 
-     * @param mixed $values
+     * @param iterable $values
      * @param string $rendered
-     * @param TemplateInterface[] $templates
+     * @param iterable|TemplateInterface[] $templates
      */
-    public function __construct($values = [], $rendered = null, $templates = [])
+    public function __construct(iterable $values = [], string $rendered = null, iterable $templates = [])
     {
         parent::__construct($values, $rendered, $templates);
     }
