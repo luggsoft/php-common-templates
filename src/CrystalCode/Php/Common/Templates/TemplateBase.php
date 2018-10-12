@@ -9,9 +9,7 @@ abstract class TemplateBase implements TemplateInterface
 
     /**
      * 
-     * @param TemplateContextInterface $templateContext
-     * @return string
-     * @throws Exception
+     * {@inheritdoc}
      */
     final public function render(TemplateContextInterface $templateContext)
     {

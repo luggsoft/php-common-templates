@@ -24,8 +24,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      * 
-     * @param TemplateContextInterface $templateContext
-     * @return string
+     * {@inheritdoc}
      */
     final public function render(TemplateContextInterface $templateContext)
     {
@@ -40,9 +39,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      * 
-     * @param TemplateInterface $template
-     * @param TemplateContextInterface $templateContext
-     * @return string
+     * {@inheritdoc}
      */
     final public function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null)
     {

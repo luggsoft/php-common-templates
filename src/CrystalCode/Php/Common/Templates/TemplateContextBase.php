@@ -60,8 +60,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param string $name
-     * @return mixed
+     * {@inheritdoc}
      */
     final public function getValue($name)
     {
@@ -73,9 +72,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param string $name
-     * @param mixed $value
-     * @return TemplateContextInterface
+     * {@inheritdoc}
      */
     final public function withValue($name, $value)
     {
@@ -86,8 +83,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param mixed $values
-     * @return TemplateContextInterface
+     * {@inheritdoc}
      */
     final public function withValues($values)
     {
@@ -98,7 +94,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @return string
+     * {@inheritdoc}
      */
     final public function getRendered()
     {
@@ -107,8 +103,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param string $rendered
-     * @return TemplateContextInterface
+     * {@inheritdoc}
      */
     final public function withRendered($rendered)
     {
@@ -119,7 +114,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @return bool
+     * {@inheritdoc}
      */
     final public function hasTemplate()
     {
@@ -140,8 +135,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param TemplateInterface $template
-     * @return void
+     * {@inheritdoc}
      */
     final public function addTemplate(TemplateInterface $template)
     {
@@ -150,7 +144,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @return TemplateInterface
+     * {@inheritdoc}
      */
     final public function popTemplate()
     {
