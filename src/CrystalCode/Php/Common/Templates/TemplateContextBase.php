@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-use \CrystalCode\Php\Common\Collections\Collection;
+use CrystalCode\Php\Common\Collections\Collection;
 
 abstract class TemplateContextBase implements TemplateContextInterface
 {

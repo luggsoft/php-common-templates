@@ -33,4 +33,5 @@ abstract class TemplateBase implements TemplateInterface
      * @return void
      */
     abstract protected function execute(TemplateContextInterface $templateContext): void;
+
 }

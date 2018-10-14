@@ -11,4 +11,5 @@ interface TemplateInterface
      * @return string
      */
     function render(TemplateContextInterface $templateContext): string;
+
 }

@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-use \Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 abstract class FileTemplateBase extends TemplateBase
 {

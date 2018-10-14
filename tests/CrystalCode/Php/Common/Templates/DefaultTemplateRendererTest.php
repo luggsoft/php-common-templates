@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DefaultTemplateRendererTest extends TestCase
 {
