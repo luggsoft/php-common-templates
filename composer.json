@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": "^7.2",
         "crystalcode/php-common": "dev-develop-php7",
         "crystalcode/php-common-collections": "dev-develop-php7",
         "crystalcode/php-common-injectors": "dev-develop-php7",
@@ -30,14 +31,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "http://satis.dev.crystalcode.io"
-        }
-    ],
-    "config": {
-        "secure-http": false
-    }
+    "prefer-stable": true
 }
