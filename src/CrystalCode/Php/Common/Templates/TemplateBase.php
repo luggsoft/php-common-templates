@@ -11,7 +11,7 @@ abstract class TemplateBase implements TemplateInterface
      * 
      * {@inheritdoc}
      */
-    final public function render(TemplateContextInterface $templateContext)
+    final public function render(TemplateContextInterface $templateContext): string
     {
         $level = ob_get_level();
         try {
@@ -32,6 +32,6 @@ abstract class TemplateBase implements TemplateInterface
      * @param TemplateContextInterface $templateContext
      * @return void
      */
-    abstract protected function execute(TemplateContextInterface $templateContext);
+    abstract protected function execute(TemplateContextInterface $templateContext): void;
 
 }

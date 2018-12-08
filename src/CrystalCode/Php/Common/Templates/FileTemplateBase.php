@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-use \Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 abstract class FileTemplateBase extends TemplateBase
 {
@@ -17,9 +17,9 @@ abstract class FileTemplateBase extends TemplateBase
      * 
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
-        $this->path = realpath((string) $path);
+        $this->path = realpath($path);
         if (is_file($this->path) === false) {
             throw new FileNotFoundException($path);
         }
@@ -29,7 +29,7 @@ abstract class FileTemplateBase extends TemplateBase
      * 
      * @return string
      */
-    final public function getPath()
+    final public function getPath(): string
     {
         return $this->path;
     }

@@ -15,9 +15,9 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      * 
-     * @param mixed $values
+     * @param iterable $values
      */
-    public function __construct($values = [])
+    public function __construct(iterable $values = [])
     {
         $this->setValues($values);
     }
@@ -26,7 +26,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * 
      * {@inheritdoc}
      */
-    final public function render(TemplateContextInterface $templateContext)
+    final public function render(TemplateContextInterface $templateContext): string
     {
         $templateContext = $templateContext->withValues($this->values);
         while ($templateContext->hasTemplate()) {
@@ -41,7 +41,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * 
      * {@inheritdoc}
      */
-    final public function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null)
+    final public function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null): string
     {
         if ($templateContext === null) {
             $templateContext = new DefaultTemplateContext();
@@ -55,7 +55,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * @param string $name
      * @return mixed
      */
-    final public function getValue($name)
+    final public function getValue(string $name)
     {
         if (isset($this->values[$name])) {
             return $this->values[$name];
@@ -69,7 +69,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * @param mixed $value
      * @return TemplateContextInterface
      */
-    final public function withValue($name, $value)
+    final public function withValue(string $name, $value): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setValue($name, $value);
@@ -78,10 +78,10 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      * 
-     * @param mixed $values
+     * @param iterable $values
      * @return TemplateContextInterface
      */
-    final public function withValues($values)
+    final public function withValues(iterable $values): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setValues($values);
@@ -94,17 +94,17 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * @param mixed $value
      * @return void
      */
-    final protected function setValue($name, $value)
+    final protected function setValue(string $name, $value): void
     {
-        $this->values[(string) $name] = $value;
+        $this->values[$name] = $value;
     }
 
     /**
      * 
-     * @param mixed[] $values
+     * @param iterable $values
      * @return void
      */
-    final protected function setValues($values)
+    final protected function setValues(iterable $values): void
     {
         foreach (Collection::create($values) as $name => $value) {
             $this->setValue($name, $value);

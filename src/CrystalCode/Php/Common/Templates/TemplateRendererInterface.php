@@ -11,6 +11,6 @@ interface TemplateRendererInterface extends TemplateInterface
      * @param TemplateContextInterface $templateContext
      * @return string
      */
-    function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null);
+    function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null): string;
 
 }

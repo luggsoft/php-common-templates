@@ -9,7 +9,7 @@ final class RequireFileTemplate extends FileTemplateBase
      * 
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         parent::__construct($path);
     }
@@ -18,7 +18,7 @@ final class RequireFileTemplate extends FileTemplateBase
      * 
      * {@inheritdoc}
      */
-    protected function execute(TemplateContextInterface $templateContext)
+    protected function execute(TemplateContextInterface $templateContext): void
     {
         $template = $this;
         call_user_func(function () use ($template, $templateContext) {

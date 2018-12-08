@@ -4,12 +4,14 @@ namespace CrystalCode\Php\Common\Templates;
 
 final class DefaultTemplateRenderer extends TemplateRendererBase
 {
+
     /**
      * 
-     * @param mixed $values
+     * @param iterable $values
      */
-    public function __construct($values = [])
+    public function __construct(iterable $values = [])
     {
         parent::__construct($values);
     }
+
 }
