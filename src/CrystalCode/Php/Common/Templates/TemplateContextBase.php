@@ -35,7 +35,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
     {
         $this->setValues($values);
         $this->setRendered($rendered);
-        $this->addTemplates($templates);
+        $this->addTemplates(...$templates);
     }
 
     /**
@@ -68,6 +68,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
         if (isset($this->values[$name])) {
             return $this->values[$name];
         }
+
         return null;
     }
 
@@ -127,20 +128,11 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @param iterable|TemplateInterface[] $templates
      * @return void
      */
-    final public function addTemplates(iterable $templates): void
+    final public function addTemplates(TemplateInterface ...$templates): void
     {
-        foreach (Collection::create($templates) as $template) {
-            $this->addTemplate($template);
+        foreach ($templates as $template) {
+            $this->templates[] = $template;
         }
-    }
-
-    /**
-     * 
-     * {@inheritdoc}
-     */
-    final public function addTemplate(TemplateInterface $template): void
-    {
-        array_push($this->templates, $template);
     }
 
     /**

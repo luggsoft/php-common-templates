@@ -26,10 +26,10 @@ interface TemplateContextInterface
 
     /**
      * 
-     * @param TemplateInterface $template
+     * @param iterable|TemplateInterface[] $templates
      * @return void
      */
-    function addTemplate(TemplateInterface $template): void;
+    function addTemplates(TemplateInterface ...$template): void;
 
     /**
      * 
@@ -46,16 +46,17 @@ interface TemplateContextInterface
 
     /**
      * 
+     * @param iterable $values
+     * @return TemplateContextInterface
+     */
+    function withValues(iterable $values): TemplateContextInterface;
+
+    /**
+     * 
      * @param string $name
      * @param mixed $value
      * @return TemplateContextInterface
      */
     function withValue(string $name, $value): TemplateContextInterface;
 
-    /**
-     * 
-     * @param iterable $values
-     * @return TemplateContextInterface
-     */
-    function withValues(iterable $values): TemplateContextInterface;
 }

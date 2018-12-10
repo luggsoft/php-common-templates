@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-final class DefaultTemplateContext extends TemplateContextBase
+final class TemplateContext extends TemplateContextBase
 {
 
     /**

@@ -8,18 +8,32 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 {
 
     /**
+     * 
+     * @var int
+     */
+    const OPTION_TRIM_RENDERED = 1;
+
+    /**
      *
      * @var array
      */
     private $values = [];
 
     /**
+     *
+     * @var int
+     */
+    private $options = 0;
+
+    /**
      * 
      * @param iterable $values
+     * @param int $options
      */
-    public function __construct(iterable $values = [])
+    public function __construct(iterable $values = [], int $options = 0)
     {
         $this->setValues($values);
+        $this->options = $options;
     }
 
     /**
@@ -29,12 +43,25 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
     final public function render(TemplateContextInterface $templateContext): string
     {
         $templateContext = $templateContext->withValues($this->values);
+
         while ($templateContext->hasTemplate()) {
             $template = $templateContext->popTemplate();
             $rendered = $template->render($templateContext);
+
+            if ($this->hasOptions(self::OPTION_TRIM_RENDERED)) {
+                $rendered = ltrim($rendered);
+            }
+
             $templateContext = $templateContext->withRendered($rendered);
         }
-        return $templateContext->getRendered();
+
+        $rendered = $templateContext->getRendered();
+
+        if ($this->hasOptions(self::OPTION_TRIM_RENDERED)) {
+            return trim($rendered);
+        }
+
+        return $rendered;
     }
 
     /**
@@ -44,9 +71,10 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
     final public function renderTemplate(TemplateInterface $template, TemplateContextInterface $templateContext = null): string
     {
         if ($templateContext === null) {
-            $templateContext = new DefaultTemplateContext();
+            $templateContext = new TemplateContext();
         }
-        $templateContext->addTemplate($template);
+
+        $templateContext->addTemplates($template);
         return $this->render($templateContext);
     }
 
@@ -60,6 +88,7 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
         if (isset($this->values[$name])) {
             return $this->values[$name];
         }
+
         return null;
     }
 
@@ -67,9 +96,9 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * 
      * @param string $name
      * @param mixed $value
-     * @return TemplateContextInterface
+     * @return TemplateRendererBase
      */
-    final public function withValue(string $name, $value): TemplateContextInterface
+    final public function withValue(string $name, $value): TemplateRendererBase
     {
         $clone = clone $this;
         $clone->setValue($name, $value);
@@ -79,12 +108,34 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
     /**
      * 
      * @param iterable $values
-     * @return TemplateContextInterface
+     * @return TemplateRendererBase
      */
-    final public function withValues(iterable $values): TemplateContextInterface
+    final public function withValues(iterable $values): TemplateRendererBase
     {
         $clone = clone $this;
         $clone->setValues($values);
+        return $clone;
+    }
+
+    /**
+     * 
+     * @param int $options
+     * @return bool
+     */
+    final public function hasOptions(int $options): bool
+    {
+        return ($this->options & $options) === $options;
+    }
+
+    /**
+     * 
+     * @param int $options
+     * @return TemplateRendererBase
+     */
+    final public function withOptions(int $options): TemplateRendererBase
+    {
+        $clone = clone $this;
+        $clone->setOptions($options);
         return $clone;
     }
 
@@ -109,6 +160,16 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
         foreach (Collection::create($values) as $name => $value) {
             $this->setValue($name, $value);
         }
+    }
+
+    /**
+     * 
+     * @param int $options
+     * @return void
+     */
+    final protected function setOptions(int $options): void
+    {
+        $this->options = $this->options | $options;
     }
 
 }

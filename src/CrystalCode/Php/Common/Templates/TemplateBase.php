@@ -14,6 +14,7 @@ abstract class TemplateBase implements TemplateInterface
     final public function render(TemplateContextInterface $templateContext): string
     {
         $level = ob_get_level();
+        
         try {
             ob_start();
             $this->execute($templateContext);
@@ -23,6 +24,7 @@ abstract class TemplateBase implements TemplateInterface
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
+            
             throw $exception;
         }
     }
