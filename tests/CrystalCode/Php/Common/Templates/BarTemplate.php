@@ -11,7 +11,7 @@ final class BarTemplate extends TemplateBase
      */
     protected function execute(TemplateContextInterface $templateContext): void
     {
-        $templateContext->addTemplate(new QuxTemplate);
+        $templateContext->addTemplates(new QuxTemplate);
         echo $templateContext->getRendered();
         echo 'Bar';
         echo PHP_EOL;

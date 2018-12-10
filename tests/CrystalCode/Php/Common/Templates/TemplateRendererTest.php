@@ -13,7 +13,7 @@ class TemplateRendererTest extends TestCase
      */
     public function testRenderTemplate1(): void
     {
-        $templateRenderer = new TemplateRenderer();
+        $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
         $template = new Template(function () {
             echo 'Hello world';
         });
@@ -58,7 +58,6 @@ class TemplateRendererTest extends TestCase
      */
     public function testRenderTemplate4(): void
     {
-
         $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
         $template = new QuxTemplate();
         $templateContext = new TemplateContext();

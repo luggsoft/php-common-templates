@@ -11,7 +11,7 @@ final class FooTemplate extends TemplateBase
      */
     protected function execute(TemplateContextInterface $templateContext): void
     {
-        $templateContext->addTemplate(new BarTemplate);
+        $templateContext->addTemplates(new BarTemplate);
         echo 'Foo';
         echo PHP_EOL;
     }
