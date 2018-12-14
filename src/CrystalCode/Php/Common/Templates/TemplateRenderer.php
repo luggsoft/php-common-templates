@@ -8,11 +8,11 @@ final class TemplateRenderer extends TemplateRendererBase
     /**
      * 
      * @param iterable $values
-     * @param int $options
+     * @param iterable|FormatterInterface[] $formatters
      */
-    public function __construct(iterable $values = [], int $options = 0)
+    public function __construct(iterable $values = [], iterable $formatters = [])
     {
-        parent::__construct($values, $options);
+        parent::__construct($values, $formatters);
     }
 
 }

@@ -8,12 +8,6 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 {
 
     /**
-     * 
-     * @var int
-     */
-    const OPTION_TRIM_RENDERED = 1;
-
-    /**
      *
      * @var array
      */
@@ -21,19 +15,19 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      *
-     * @var int
+     * @var array|FormatterInterface[]
      */
-    private $options = 0;
+    private $formatters = [];
 
     /**
      * 
      * @param iterable $values
-     * @param int $options
+     * @param iterable|FormatterInterface[] $formatters
      */
-    public function __construct(iterable $values = [], int $options = 0)
+    public function __construct(iterable $values = [], iterable $formatters = [])
     {
         $this->setValues($values);
-        $this->options = $options;
+        $this->addFormatters(...$formatters);
     }
 
     /**
@@ -47,18 +41,13 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
         while ($templateContext->hasTemplate()) {
             $template = $templateContext->popTemplate();
             $rendered = $template->render($templateContext);
-
-            if ($this->hasOptions(self::OPTION_TRIM_RENDERED)) {
-                $rendered = ltrim($rendered);
-            }
-
             $templateContext = $templateContext->withRendered($rendered);
         }
 
         $rendered = $templateContext->getRendered();
 
-        if ($this->hasOptions(self::OPTION_TRIM_RENDERED)) {
-            return trim($rendered);
+        foreach ($this->formatters as $formatter) {
+            $rendered = $formatter->format($rendered);
         }
 
         return $rendered;
@@ -96,6 +85,17 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
      * 
      * @param string $name
      * @param mixed $value
+     * @return void
+     */
+    final public function setValue(string $name, $value): void
+    {
+        $this->values[$name] = $value;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param mixed $value
      * @return TemplateRendererBase
      */
     final public function withValue(string $name, $value): TemplateRendererBase
@@ -103,6 +103,27 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
         $clone = clone $this;
         $clone->setValue($name, $value);
         return $clone;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    final public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * 
+     * @param iterable $values
+     * @return void
+     */
+    final public function setValues(iterable $values): void
+    {
+        foreach (Collection::create($values) as $name => $value) {
+            $this->setValue($name, $value);
+        }
     }
 
     /**
@@ -119,57 +140,35 @@ abstract class TemplateRendererBase implements TemplateRendererInterface
 
     /**
      * 
-     * @param int $options
-     * @return bool
+     * @return array|FormatterInterface[]
      */
-    final public function hasOptions(int $options): bool
+    final public function getFormatters(): array
     {
-        return ($this->options & $options) === $options;
+        return $this->formatters;
     }
 
     /**
      * 
-     * @param int $options
-     * @return TemplateRendererBase
-     */
-    final public function withOptions(int $options): TemplateRendererBase
-    {
-        $clone = clone $this;
-        $clone->setOptions($options);
-        return $clone;
-    }
-
-    /**
-     * 
-     * @param string $name
-     * @param mixed $value
+     * @param iterable|FormatterInterface[] $formatters
      * @return void
      */
-    final protected function setValue(string $name, $value): void
+    final public function addFormatters(FormatterInterface ...$formatters): void
     {
-        $this->values[$name] = $value;
-    }
-
-    /**
-     * 
-     * @param iterable $values
-     * @return void
-     */
-    final protected function setValues(iterable $values): void
-    {
-        foreach (Collection::create($values) as $name => $value) {
-            $this->setValue($name, $value);
+        foreach ($formatters as $formatter) {
+            $this->formatters[] = $formatter;
         }
     }
 
     /**
      * 
-     * @param int $options
-     * @return void
+     * @param iterable|FormatterInterface[] $formatters
+     * @return TemplateRendererBase
      */
-    final protected function setOptions(int $options): void
+    final public function withFormatters(FormatterInterface ...$formatters): TemplateRendererBase
     {
-        $this->options = $this->options | $options;
+        $clone = clone $this;
+        $clone->addFormatters(...$formatters);
+        return $clone;
     }
 
 }

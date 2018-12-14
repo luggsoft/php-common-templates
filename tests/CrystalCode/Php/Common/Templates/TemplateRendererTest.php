@@ -11,59 +11,35 @@ class TemplateRendererTest extends TestCase
      * 
      * @return void
      */
-    public function testRenderTemplate1(): void
+    public function test1(): void
     {
-        $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
-        $template = new Template(function () {
-            echo 'Hello world';
+        $expect = 'Hello world.';
+        $templateRenderer = new TemplateRenderer();
+        $template = new DelegateTemplate(function () {
+            echo 'Hello world.';
         });
-        $rendered = $templateRenderer->renderTemplate($template);
-        $this->assertEquals('Hello world', $rendered);
+        $actual = $templateRenderer->renderTemplate($template);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * 
      * @return void
      */
-    public function testRenderTemplate2(): void
+    public function test2(): void
     {
-        $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
-        $template = new FooTemplate();
-        $templateContext = new TemplateContext();
-        $rendered = $templateRenderer->renderTemplate($template, $templateContext);
-        $expected = 'Foo' . PHP_EOL .
-          'Bar' . PHP_EOL .
-          'Qux';
-        $this->assertEquals($expected, $rendered);
-    }
-
-    /**
-     * 
-     * @return void
-     */
-    public function testRenderTemplate3(): void
-    {
-        $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
-        $template = new BarTemplate();
-        $templateContext = new TemplateContext();
-        $rendered = $templateRenderer->renderTemplate($template, $templateContext);
-        $expected = 'Bar' . PHP_EOL .
-          'Qux';
-        $this->assertEquals($expected, $rendered);
-    }
-
-    /**
-     * 
-     * @return void
-     */
-    public function testRenderTemplate4(): void
-    {
-        $templateRenderer = new TemplateRenderer([], TemplateRenderer::OPTION_TRIM_RENDERED);
-        $template = new QuxTemplate();
-        $templateContext = new TemplateContext();
-        $rendered = $templateRenderer->renderTemplate($template, $templateContext);
-        $expected = 'Qux';
-        $this->assertEquals($expected, $rendered);
+        $expect = 'Hello world. Goodbye universe.';
+        $templateRenderer = new TemplateRenderer();
+        $template = new DelegateTemplate(function (TemplateContextInterface $templateContext) {
+            $templateContext->addTemplates(new DelegateTemplate(function (TemplateContextInterface $templateContext) {
+                  echo $templateContext->getRendered();
+                  echo ' ';
+                  echo 'Goodbye universe.';
+              }));
+            echo 'Hello world.';
+        });
+        $actual = $templateRenderer->renderTemplate($template);
+        $this->assertEquals($expect, $actual);
     }
 
 }

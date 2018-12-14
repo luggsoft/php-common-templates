@@ -2,7 +2,7 @@
 
 namespace CrystalCode\Php\Common\Templates;
 
-final class Template extends TemplateBase
+final class DelegateTemplate extends TemplateBase
 {
 
     /**

@@ -3,6 +3,7 @@
 namespace CrystalCode\Php\Common\Templates;
 
 use CrystalCode\Php\Common\Collections\Collection;
+use Exception;
 
 abstract class TemplateContextBase implements TemplateContextInterface
 {
@@ -24,6 +25,12 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * @var array|TemplateInterface[]
      */
     private $templates = [];
+
+    /**
+     *
+     * @var array|TemplateInterface[]
+     */
+    private $sectionTemplates = [];
 
     /**
      * 
@@ -76,11 +83,40 @@ abstract class TemplateContextBase implements TemplateContextInterface
      * 
      * {@inheritdoc}
      */
+    final public function setValue(string $name, $value): void
+    {
+        $this->values[$name] = $value;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
     final public function withValue(string $name, $value): TemplateContextInterface
     {
         $clone = clone $this;
         $clone->setValue($name, $value);
         return $clone;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    public function getValues(): iterable
+    {
+        return $this->values;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    final public function setValues(iterable $values): void
+    {
+        foreach (Collection::create($values) as $name => $value) {
+            $this->setValue($name, $value);
+        }
     }
 
     /**
@@ -101,6 +137,15 @@ abstract class TemplateContextBase implements TemplateContextInterface
     final public function getRendered(): string
     {
         return $this->rendered;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    final public function setRendered(string $rendered = null): void
+    {
+        $this->rendered = (string) $rendered;
     }
 
     /**
@@ -146,35 +191,53 @@ abstract class TemplateContextBase implements TemplateContextInterface
 
     /**
      * 
-     * @param string $rendered
-     * @return void
+     * {@inheritdoc}
      */
-    final protected function setRendered(string $rendered = null): void
+    final public function hasSectionTemplate(string $name): bool
     {
-        $this->rendered = (string) $rendered;
+        return isset($this->sectionTemplates[$name]);
     }
 
     /**
      * 
-     * @param string $name
-     * @param mixed $value
-     * @return void
+     * {@inheritdoc}
      */
-    final protected function setValue(string $name, $value): void
+    final public function getSectionTemplate(string $name): TemplateInterface
     {
-        $this->values[$name] = $value;
-    }
-
-    /**
-     * 
-     * @param iterable $values
-     * @return void
-     */
-    final protected function setValues(iterable $values): void
-    {
-        foreach (Collection::create($values) as $name => $value) {
-            $this->setValue($name, $value);
+        if (isset($this->sectionTemplates[$name])) {
+            return $this->sectionTemplates[$name];
         }
+        throw new Exception();
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    final public function setSectionTemplate(string $name, TemplateInterface $template): void
+    {
+        $this->sectionTemplates[$name] = $template;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    final public function withSectionTemplate(string $name, TemplateInterface $template): TemplateContextInterface
+    {
+        $clone = clone $this;
+        $clone->setSectionTemplate($name, $template);
+        return $clone;
+    }
+
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    final public function renderSectionTemplate(string $name, iterable $values = []): string
+    {
+        $templateContext = $this->withValues($values);
+        return $this->getSectionTemplate($name)->render($templateContext);
     }
 
 }
