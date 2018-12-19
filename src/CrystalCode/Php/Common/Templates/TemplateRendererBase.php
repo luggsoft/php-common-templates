@@ -3,6 +3,7 @@
 namespace CrystalCode\Php\Common\Templates;
 
 use CrystalCode\Php\Common\Collections\Collection;
+use CrystalCode\Php\Common\Templates\Formatters\FormatterInterface;
 
 abstract class TemplateRendererBase implements TemplateRendererInterface
 {
