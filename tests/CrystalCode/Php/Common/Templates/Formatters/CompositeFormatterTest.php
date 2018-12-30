@@ -11,7 +11,7 @@ class CompositeFormatterTest extends TestCase
      * 
      * @return void
      */
-    function test1(): void
+    public function test1(): void
     {
 
         $expect = 'Hello world.';
