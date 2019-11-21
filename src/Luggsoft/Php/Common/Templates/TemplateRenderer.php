@@ -2,6 +2,8 @@
 
 namespace Luggsoft\Php\Common\Templates;
 
+use Luggsoft\Php\Common\Templates\Formatters\FormatterInterface;
+
 final class TemplateRenderer extends TemplateRendererBase
 {
     

@@ -210,6 +210,7 @@ abstract class TemplateContextBase implements TemplateContextInterface
     /**
      *
      * {@inheritdoc}
+     * @throws Exception
      */
     final public function renderSectionTemplate(string $name, iterable $values = []): string
     {

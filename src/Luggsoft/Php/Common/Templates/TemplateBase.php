@@ -10,6 +10,7 @@ abstract class TemplateBase implements TemplateInterface
     /**
      *
      * {@inheritdoc}
+     * @throws Exception
      */
     final public function render(TemplateContextInterface $templateContext): string
     {

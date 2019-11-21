@@ -2,6 +2,8 @@
 
 namespace Luggsoft\Php\Common\Templates;
 
+use Exception;
+
 interface TemplateContextInterface
 {
     
@@ -53,7 +55,7 @@ interface TemplateContextInterface
     /**
      *
      * @param string $name
-     * @param type $value
+     * @param mixed $value
      * @return void
      */
     function setValue(string $name, $value): void;
