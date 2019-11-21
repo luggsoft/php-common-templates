@@ -30,7 +30,6 @@ final class TrimFormatter implements FormatterInterface
     public function format(string $input): string
     {
         $mask = implode($this->characters);
-        var_dump($mask);
         return trim($input, $mask);
     }
     
