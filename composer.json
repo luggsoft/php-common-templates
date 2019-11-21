@@ -1,7 +1,7 @@
 {
-    "name": "crystalcode/php-common-templates",
+    "name": "luggsoft/php-common-templates",
     "type": "library",
-    "homepage": "https://github.com/crystalcodesoftware/php-common-templates",
+    "homepage": "https://github.com/luggsoft/php-common-templates",
     "license": "MIT",
     "authors": [
         {
@@ -11,9 +11,9 @@
     ],
     "require": {
         "php": "^7.2",
-        "crystalcode/php-common": "dev-master",
-        "crystalcode/php-common-collections": "dev-master",
-        "crystalcode/php-common-injectors": "dev-master",
+        "luggsoft/php-common": "dev-master",
+        "luggsoft/php-common-collections": "dev-master",
+        "luggsoft/php-common-injectors": "dev-master",
         "symfony/filesystem": "^4.1"
     },
     "require-dev": {
