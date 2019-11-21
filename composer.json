@@ -1,5 +1,6 @@
 {
     "name": "luggsoft/php-common-templates",
+    "description": "Luggsoft / PHP Common Templates",
     "type": "library",
     "homepage": "https://github.com/luggsoft/php-common-templates",
     "license": "MIT",
